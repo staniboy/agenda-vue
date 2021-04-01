@@ -1,7 +1,7 @@
 <template>
   <div class="app-list-item">
     <img
-      class="app-list-item-button"
+      class="app-list-item-button handle"
       alt="grip"
       src="../assets/grip-vertical.svg"
     />
@@ -22,9 +22,8 @@
     <div
       class="app-list-item-content"
       contenteditable="true"
-      @keydown.enter="emitOnEdit($event.target)"
-      @blur="emitOnEdit($event.target)"
-      ref="itemDivContent"
+      @keydown.enter="emitOnEdit($event)"
+      @blur="emitOnEdit($event)"
     >
       {{ model.content }}
     </div>
@@ -63,7 +62,8 @@
         emit("onDelete");
       }
 
-      function emitOnEdit(target: any) {
+      function emitOnEdit(event: Event) {
+        const target = event.target as HTMLElement;
         emit("onEdit", target.innerText);
         target.blur();
       }
@@ -76,7 +76,7 @@
     },
   });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
   .app-list-item {
