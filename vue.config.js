@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: "/project name/",
+  publicPath: process.env.NODE_ENV === "production" ? "/REPO_NAME/" : "/",
   pwa: {
     name: "Agenda Vue",
     manifestCrossorigin: "anonymous",

@@ -2,15 +2,18 @@
   "name": "agenda-vue",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://staniboy.github.io/agenda-vue",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@types/vuedraggable": "^2.23.2",
     "bootstrap": "^5.0.0-beta3",
     "core-js": "^3.10.0",
+    "gh-pages": "^3.1.0",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.10",
     "vuedraggable": "^4.0.1"
