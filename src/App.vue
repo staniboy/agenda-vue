@@ -87,8 +87,8 @@
         data.itemList = data.itemList.filter((x: any) => x.id !== id);
       }
 
-      function editItem(content: string, id: number) {
-        data.itemList.find((x: any) => x.id === id)!.content = content;
+      function editItem(newContent: string, id: number) {
+        data.itemList.find((x: any) => x.id === id)!.content = newContent;
       }
       return {
         data,
