@@ -63,7 +63,7 @@
       }
 
       function emitOnEdit(event: Event) {
-        const target = event.target as HTMLInputElement;
+        const target = event.target as HTMLElement;
         emit("onEdit", target.innerText);
         target.blur();
       }
