@@ -1,5 +1,5 @@
 module.exports = {
-  outputDir: "dist",
+  publicPath: "/project name/",
   pwa: {
     name: "Agenda Vue",
     manifestCrossorigin: "anonymous",
