@@ -2,7 +2,7 @@
   <main class="container">
     <ItemInput @onAddItem="addItem"></ItemInput>
 
-    <draggable v-model="itemList" item-key="id">
+    <draggable v-model="data.itemList" item-key="id" handle=".handle">
       <template #item="{element}">
         <ListItem
           :model="element"
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-  import { ref, defineComponent } from "vue";
+  import { defineComponent, reactive, onMounted } from "vue";
   import draggable from "vuedraggable";
   import ListItem from "./components/ListItem.vue";
   import ItemInput from "./components/ItemInput.vue";
@@ -28,64 +28,71 @@
       ItemInput,
       draggable,
     },
+    watch: {
+      data: {
+        handler(data) {
+          localStorage.itemList = JSON.stringify(data.itemList);
+        },
+        deep: true,
+      },
+    },
+
     setup() {
-      interface ListItem {
+      interface ListItemType {
         id: number;
         content: string;
         status: boolean;
       }
 
-      interface List {
-        name: string;
-        items: ListItem[];
-      }
+      const data = reactive({
+        itemList: [
+          { id: 0, content: "Unchecked Task", status: false },
+          { id: 1, content: "Another Unchecked Task", status: false },
+          { id: 2, content: "Checked Task", status: true },
+        ],
+      });
 
-      interface Data {
-        activeListId: number;
-        lists: List[];
-      }
-
-      const itemList = ref<ListItem[]>([
-        { id: 0, content: "Unchecked Task", status: false },
-        { id: 1, content: "Another Unchecked Task", status: false },
-        { id: 2, content: "Checked Task", status: true },
-      ]);
+      onMounted(() => {
+        if (localStorage.itemList) {
+          data.itemList = JSON.parse(localStorage.itemList);
+        }
+      });
 
       function getNextItemId(): number {
         let nextItemId = 1;
 
-        if (itemList.value.length > 0) {
+        if (data.itemList.length > 0) {
           nextItemId =
-            itemList.value.reduce((p, c) => (p.id > c.id ? p : c)).id + 1;
+            data.itemList.reduce((p, c) => (p.id > c.id ? p : c)).id + 1;
         }
         return nextItemId;
       }
 
       function addItem(content: string) {
         if (content == "") return;
-        itemList.value = [
+        data.itemList = [
           { id: getNextItemId(), content: content, status: false },
-          ...itemList.value,
+          ...data.itemList,
         ];
       }
 
       function toggleItemStatus(id: number) {
-        itemList.value = itemList.value.map((x) => {
+        data.itemList = data.itemList.map((x) => {
           if (x.id === id) x.status = !x.status;
           return x;
         });
       }
 
       function deleteItem(id: number) {
-        itemList.value = itemList.value.filter((x) => x.id !== id);
+        data.itemList = data.itemList.filter((x: any) => x.id !== id);
       }
 
       function editItem(content: string, id: number) {
-        itemList.value.find((x) => x.id === id)!.content = content;
+        data.itemList.find((x: any) => x.id === id)!.content = content;
       }
-
       return {
-        itemList,
+        data,
+        getNextItemId,
         addItem,
         toggleItemStatus,
         deleteItem,
@@ -95,6 +102,10 @@
   });
 </script>
 <style lang="scss">
+  $theme-colors: (
+    "primary": #000000,
+    "danger": #ff4136,
+  );
   @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
   .ghost {
