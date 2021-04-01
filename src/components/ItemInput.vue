@@ -10,7 +10,6 @@
             placeholder="Enter New Task..."
             aria-label="New task field"
             autocomplete="off"
-            v-model="content"
           />
           <div class="input-group-append">
             <button
@@ -42,24 +41,21 @@
     },
 
     setup(props, { emit }) {
-      const content = ref("");
       const input = ref();
 
       function resetInput() {
-        content.value = "";
+        input.value.value = "";
         input.value.focus();
       }
-      
+
       function onAddItem() {
-        emit("onAddItem", content.value);
+        emit("onAddItem", input.value.value);
         resetInput();
       }
-
-      return {
-        content,
-        onAddItem,
-        input,
-      };
+      return { input, resetInput, onAddItem };
     },
   });
 </script>
+<style lang="scss">
+  @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+</style>
