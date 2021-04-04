@@ -1,8 +1,21 @@
 <template>
   <main class="container">
-    <ItemInput @onAddItem="addItem"></ItemInput>
-
-    <draggable v-model="data.itemList" item-key="id" handle=".handle">
+    
+    <ItemInput
+      @onAddItem="addItem"
+      @onClearList="clearList"
+      @onDeleteChecked="deleteChecked"
+      @onResetChecked="resetChecked"
+    ></ItemInput>
+    <p class="text-center fs-3 py-5" v-if="data.itemList.length === 0">
+      List is empty
+    </p>
+    <draggable
+      v-else
+      v-model="data.itemList"
+      item-key="id"
+      handle=".app-list-item-handle"
+    >
       <template #item="{element}">
         <ListItem
           :model="element"
@@ -46,9 +59,27 @@
 
       const data = reactive({
         itemList: [
-          { id: 0, content: "Unchecked Task", status: false },
-          { id: 1, content: "Another Unchecked Task", status: false },
-          { id: 2, content: "Checked Task", status: true },
+          {
+            id: 0,
+            dateAdded: "1/20/2021",
+            content: "Unchecked Task",
+
+            status: false,
+          },
+          {
+            id: 1,
+            dateAdded: "1/20/2021",
+            content: "Another Unchecked Task",
+
+            status: false,
+          },
+          {
+            id: 2,
+            dateAdded: "1/20/2021",
+            content: "Checked Task",
+
+            status: true,
+          },
         ],
       });
 
@@ -57,6 +88,21 @@
           data.itemList = JSON.parse(localStorage.itemList);
         }
       });
+
+      function clearList() {
+        data.itemList = [];
+      }
+
+      function deleteChecked() {
+        data.itemList = data.itemList.filter((x) => x.status !== true);
+      }
+
+      function resetChecked() {
+        data.itemList = data.itemList.map((x) => {
+          x.status = false;
+          return x;
+        });
+      }
 
       function getNextItemId(): number {
         let nextItemId = 1;
@@ -68,10 +114,23 @@
         return nextItemId;
       }
 
+      function currentDate(): string {
+        const currentDate = new Date();
+        const cDay = currentDate.getDate();
+        const cMonth = currentDate.getMonth() + 1;
+        const cYear = currentDate.getFullYear();
+        return cDay + "/" + cMonth + "/" + cYear;
+      }
+
       function addItem(content: string) {
         if (content == "") return;
         data.itemList = [
-          { id: getNextItemId(), content: content, status: false },
+          {
+            id: getNextItemId(),
+            dateAdded: currentDate(),
+            content: content,
+            status: false,
+          },
           ...data.itemList,
         ];
       }
@@ -84,14 +143,18 @@
       }
 
       function deleteItem(id: number) {
-        data.itemList = data.itemList.filter((x: any) => x.id !== id);
+        data.itemList = data.itemList.filter((x) => x.id !== id);
       }
 
       function editItem(newContent: string, id: number) {
-        data.itemList.find((x: any) => x.id === id)!.content = newContent;
+        data.itemList.find((x) => x.id === id)!.content = newContent;
       }
       return {
         data,
+        resetChecked,
+        clearList,
+        deleteChecked,
+        currentDate,
         getNextItemId,
         addItem,
         toggleItemStatus,
