@@ -1,7 +1,7 @@
 <template>
   <div class="app-list-item">
     <img
-      class="app-list-item-button handle"
+      class="app-list-item-handle"
       alt="grip"
       src="../assets/grip-vertical.svg"
     />
@@ -19,22 +19,27 @@
       v-else
       @click="emitOnToggle"
     />
-    <div
-      class="app-list-item-content"
-      contenteditable="true"
-      @keydown.enter="emitOnEdit($event)"
-      @blur="emitOnEdit($event)"
-    >
-      {{ model.content }}
+    <div class="d-flex flex-column justify-content-start flex-grow-1">
+      <div class="d-inline-flex">
+        <div
+          class="app-list-item-content"
+          contenteditable="true"
+          @keydown.enter="emitOnEdit($event)"
+          @blur="emitOnEdit($event)"
+        >
+          {{ model.content }}
+        </div>
+      </div>
+      <div class="app-list-item-info">Added on: {{ model.dateAdded }}</div>
     </div>
-    <div class="app-list-item-content-end"></div>
     <img
-      class="app-list-item-button"
+      class="app-list-item-delete-button"
       alt="delete"
       src="../assets/x.svg"
       v-if="model.status"
       @click="emitOnDelete"
     />
+    <div v-else class="app-list-item-delete-button"></div>
   </div>
 </template>
 
@@ -48,6 +53,7 @@
         required: true,
         default: {
           id: 0,
+          dateAdded: "1/3/2021",
           content: "default task",
           status: false,
         },
@@ -81,21 +87,39 @@
 
   .app-list-item {
     @extend .list-group-item;
+    @extend .py-2;
+    @extend .px-0;
     @extend .d-flex;
     @extend .align-items-center;
     border: none;
   }
 
   .app-list-item-button {
-    @extend .me-2;
+    @extend .me-1;
+    height: 32px;
+    width: 32px;
+  }
+
+  .app-list-item-delete-button {
+    @extend .app-list-item-button;
+    // @extend .ms-auto;
+  }
+
+  .app-list-item-handle {
+    // @extend .my-2;
+    @extend .me-1;
     height: 32px;
     width: 32px;
   }
 
   .app-list-item-content {
-    @extend .d-flex;
-    @extend .align-self-center;
     @extend .px-2;
+  }
+
+  .app-list-item-info {
+    @extend .app-list-item-content;
+    font-size: 12px;
+    color: grey;
   }
 
   .app-list-item-content:focus {
