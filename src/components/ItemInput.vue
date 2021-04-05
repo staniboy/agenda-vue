@@ -67,7 +67,7 @@
           >
         </li>
       </ul>
-      <span class="version">0.1.0</span>
+      <span class="version">0.1.1</span>
     </div>
     <nav class="navbar px-0 navbar-light bg-white">
       <div class="d-inline-flex w-100">
