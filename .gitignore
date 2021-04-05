@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+dist/*
 dist
 
 
@@ -21,3 +22,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+icon.ai
+
