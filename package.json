@@ -10,6 +10,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@popperjs/core": "^2.9.2",
     "@types/vuedraggable": "^2.23.2",
     "bootstrap": "^5.0.0-beta3",
     "core-js": "^3.10.0",
@@ -19,6 +20,7 @@
     "vuedraggable": "^4.0.1"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.0.12",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "^4.5.12",
