@@ -45,7 +45,10 @@
   </div>
   <!-- Modal End -->
   <header class="sticky-top">
-    <div class="nav-menu-col collapse navbar-collapse" id="collapseTarget">
+    <div
+      class="nav-menu-col collapse navbar-collapse bg-white"
+      id="collapseTarget"
+    >
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="#" @click="emitOnDeleteChecked">
@@ -67,7 +70,7 @@
           >
         </li>
       </ul>
-      <span class="version">0.1.1</span>
+      <span class="version">0.1.3</span>
     </div>
     <nav class="navbar px-0 navbar-light bg-white">
       <div class="d-inline-flex w-100">
@@ -89,7 +92,7 @@
               ref="input"
               type="text"
               class="form-control flex-shrink-1"
-              placeholder="..."
+              placeholder="Enter task here"
               aria-label="New task field"
               autocomplete="off"
             />
@@ -110,13 +113,18 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { defineComponent, ref, onMounted } from "vue";
 
   export default defineComponent({
     emits: ["onAddItem", "onDeleteChecked", "onResetChecked", "onClearList"],
+    props: ["phrase"],
 
     setup(props, { emit }) {
       const input = ref();
+
+      onMounted(() => {
+        input.value.placeholder = props.phrase;
+      });
 
       function resetInput() {
         input.value.value = "";

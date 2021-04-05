@@ -1,7 +1,7 @@
 <template>
   <main class="container">
-    
     <ItemInput
+      :phrase="data.phrases[Math.floor(Math.random() * data.phrases.length)]"
       @onAddItem="addItem"
       @onClearList="clearList"
       @onDeleteChecked="deleteChecked"
@@ -58,6 +58,13 @@
       }
 
       const data = reactive({
+        phrases: [
+          "Hello?",
+          "Do something...",
+          "I'm alive",
+          "Guess what?",
+          "Chicken butt!",
+        ],
         itemList: [
           {
             id: 0,
