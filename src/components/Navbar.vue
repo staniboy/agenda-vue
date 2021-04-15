@@ -45,12 +45,22 @@
   </div>
   <!-- Modal End -->
   <header class="sticky-top">
+    <!-- Collapsable content -->
     <div
       class="nav-menu-col collapse navbar-collapse bg-white"
       id="collapseTarget"
     >
+      <!-- List Index -->
+      <ul class="navbar-nav mr-auto" v-for="l in lists" v-bind:key="l.id">
+        <li class="nav-item">
+          <a class="nav-link" @click="emitOnSetList(l)">{{ l.name }}</a>
+        </li>
+      </ul>
+      <br />
+      <!-- Task utils -->
+
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="#" @click="emitOnDeleteChecked">
             <img src="../assets/delete-checked.svg" alt="" /> Delete Checked</a
           >
@@ -72,6 +82,7 @@
       </ul>
       <span class="version">0.1.3</span>
     </div>
+    <!-- Collapsable content -->
     <nav class="navbar px-0 navbar-light bg-white">
       <div class="d-inline-flex w-100">
         <button
@@ -116,8 +127,14 @@
   import { defineComponent, ref, onMounted } from "vue";
 
   export default defineComponent({
-    emits: ["onAddItem", "onDeleteChecked", "onResetChecked", "onClearList"],
-    props: ["phrase"],
+    emits: [
+      "onAddItem",
+      "onDeleteChecked",
+      "onResetChecked",
+      "onClearList",
+      "onSetList",
+    ],
+    props: ["phrase", "lists"],
 
     setup(props, { emit }) {
       const input = ref();
@@ -125,7 +142,10 @@
       onMounted(() => {
         input.value.placeholder = props.phrase;
       });
-
+      // TODO: Add proper type
+      function emitOnSetList(list: Event) {
+        emit("onSetList", list);
+      }
       function resetInput() {
         input.value.value = "";
         input.value.focus();
@@ -146,6 +166,7 @@
       }
       return {
         input,
+        emitOnSetList,
         resetInput,
         emitOnAddItem,
         emitOnDeleteChecked,

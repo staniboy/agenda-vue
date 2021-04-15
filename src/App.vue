@@ -1,18 +1,23 @@
 <template>
   <main class="container">
-    <ItemInput
-      :phrase="data.phrases[Math.floor(Math.random() * data.phrases.length)]"
+    <Navbar
+      :phrase="randomPhrase"
+      :lists="data.lists"
+      @onSetList="setCurrentList($event)"
       @onAddItem="addItem"
       @onClearList="clearList"
       @onDeleteChecked="deleteChecked"
       @onResetChecked="resetChecked"
-    ></ItemInput>
-    <p class="text-center fs-3 py-5" v-if="data.itemList.length === 0">
+    ></Navbar>
+    <!--TODO: fix this mess-->
+    <p>{{ data.currentList.name }}</p>
+    <p class="text-center fs-3 py-5" v-if="data.currentList.items.length === 0">
       List is empty
     </p>
+    <!---->
     <draggable
       v-else
-      v-model="data.itemList"
+      v-model="data.currentList.items"
       item-key="id"
       handle=".app-list-item-handle"
     >
@@ -29,34 +34,41 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, onMounted } from "vue";
+  import { defineComponent, reactive, onMounted, computed } from "vue";
   import draggable from "vuedraggable";
   import ListItem from "./components/ListItem.vue";
-  import ItemInput from "./components/ItemInput.vue";
+  import Navbar from "./components/Navbar.vue";
 
   export default defineComponent({
     name: "App",
     components: {
       ListItem,
-      ItemInput,
+      Navbar,
       draggable,
     },
     watch: {
       data: {
         handler(data) {
-          localStorage.itemList = JSON.stringify(data.itemList);
+          localStorage.lists = JSON.stringify(data.lists);
         },
         deep: true,
       },
     },
-
     setup() {
-      interface ListItemType {
+      interface Item {
         id: number;
+        dateAdded: string;
         content: string;
         status: boolean;
       }
 
+      interface List {
+        id: number;
+        name: string;
+        items: Array<Item>;
+      }
+
+    
       const data = reactive({
         phrases: [
           "Hello?",
@@ -65,47 +77,108 @@
           "Guess what?",
           "Chicken butt!",
         ],
-        itemList: [
+        currentList: {
+          id: 0,
+          name: "First To-Do List",
+          items: [
+            {
+              id: 0,
+              dateAdded: "1/20/2021",
+              content: "Unchecked Task",
+              status: false,
+            },
+            {
+              id: 1,
+              dateAdded: "1/20/2021",
+              content: "Another Unchecked Task",
+              status: false,
+            },
+            {
+              id: 2,
+              dateAdded: "1/20/2021",
+              content: "Checked Task",
+              status: true,
+            },
+          ],
+        },
+        lists: [
           {
             id: 0,
-            dateAdded: "1/20/2021",
-            content: "Unchecked Task",
-
-            status: false,
+            name: "First To-Do List",
+            items: [
+              {
+                id: 0,
+                dateAdded: "1/20/2021",
+                content: "Unchecked Task",
+                status: false,
+              },
+              {
+                id: 1,
+                dateAdded: "1/20/2021",
+                content: "Another Unchecked Task",
+                status: false,
+              },
+              {
+                id: 2,
+                dateAdded: "1/20/2021",
+                content: "Checked Task",
+                status: true,
+              },
+            ],
           },
           {
             id: 1,
-            dateAdded: "1/20/2021",
-            content: "Another Unchecked Task",
-
-            status: false,
-          },
-          {
-            id: 2,
-            dateAdded: "1/20/2021",
-            content: "Checked Task",
-
-            status: true,
+            name: "Second To-Do List",
+            items: [
+              {
+                id: 0,
+                dateAdded: "1/20/2021",
+                content: "Unchecked Task",
+                status: false,
+              },
+              {
+                id: 1,
+                dateAdded: "1/20/2021",
+                content: "Another Unchecked Task",
+                status: false,
+              },
+              {
+                id: 2,
+                dateAdded: "1/20/2021",
+                content: "Checked Task",
+                status: true,
+              },
+            ],
           },
         ],
       });
+      const randomPhrase = computed(() => {
+        return data.phrases[Math.floor(Math.random() * data.phrases.length)];
+      });
 
       onMounted(() => {
-        if (localStorage.itemList) {
-          data.itemList = JSON.parse(localStorage.itemList);
+        if (localStorage.lists) {
+          data.lists = JSON.parse(localStorage.lists);
         }
       });
 
+      function setCurrentList(list: List) {
+        console.log("list id is: " + list.id);
+        data.currentList = list;
+        console.log(data.currentList, data.lists);
+      }
       function clearList() {
-        data.itemList = [];
+        data.currentList.items = [];
       }
 
       function deleteChecked() {
-        data.itemList = data.itemList.filter((x) => x.status !== true);
+        data.currentList.items = data.currentList.items.filter(
+          (x) => x.status !== true
+        );
       }
 
       function resetChecked() {
-        data.itemList = data.itemList.map((x) => {
+        data.currentList.items = data.currentList.items.map((x) => {
           x.status = false;
           return x;
         });
@@ -114,9 +187,10 @@
       function getNextItemId(): number {
         let nextItemId = 1;
 
-        if (data.itemList.length > 0) {
+        if (data.currentList.items.length > 0) {
           nextItemId =
-            data.itemList.reduce((p, c) => (p.id > c.id ? p : c)).id + 1;
+            data.currentList.items.reduce((p, c) => (p.id > c.id ? p : c)).id +
+            1;
         }
         return nextItemId;
       }
@@ -131,33 +205,37 @@
 
       function addItem(content: string) {
         if (content == "") return;
-        data.itemList = [
+        data.currentList.items = [
           {
             id: getNextItemId(),
             dateAdded: currentDate(),
             content: content,
             status: false,
           },
-          ...data.itemList,
+          ...data.currentList.items,
         ];
       }
 
       function toggleItemStatus(id: number) {
-        data.itemList = data.itemList.map((x) => {
+        data.currentList.items = data.currentList.items.map((x) => {
           if (x.id === id) x.status = !x.status;
           return x;
         });
       }
 
       function deleteItem(id: number) {
-        data.itemList = data.itemList.filter((x) => x.id !== id);
+        data.currentList.items = data.currentList.items.filter(
+          (x) => x.id !== id
+        );
       }
 
       function editItem(newContent: string, id: number) {
-        data.itemList.find((x) => x.id === id)!.content = newContent;
+        data.currentList.items.find((x) => x.id === id)!.content = newContent;
       }
       return {
         data,
+        randomPhrase,
+        setCurrentList,
         resetChecked,
         clearList,
         deleteChecked,
