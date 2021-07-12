@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.2ce168f56699abc4bf7e067bfb756473.js"
+  "precache-manifest.08dbe0fa754b120b45734491ae8dc9dc.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "agenda-vue"});
