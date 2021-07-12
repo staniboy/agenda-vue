@@ -33,6 +33,7 @@
 </template>
 
 <script lang="ts">
+  import getNextAvailableId from "./store/utils";
   import { List, Item } from "./types";
   import { defineComponent, reactive, onMounted } from "vue";
   import draggable from "vuedraggable";
@@ -146,17 +147,6 @@
         });
       }
 
-      function getNextItemId(): number {
-        let nextItemId = 1;
-
-        if (data.currentList.items.length > 0) {
-          nextItemId =
-            data.currentList.items.reduce((p, c) => (p.id > c.id ? p : c)).id +
-            1;
-        }
-        return nextItemId;
-      }
-
       function currentDate(): string {
         const currentDate = new Date();
         const cDay = currentDate.getDate();
@@ -169,7 +159,7 @@
         if (content == "") return;
         data.currentList.items = [
           {
-            id: getNextItemId(),
+            id: getNextAvailableId(data.currentList.items),
             dateAdded: currentDate(),
             content: content,
             status: false,
@@ -201,7 +191,7 @@
         clearList,
         deleteChecked,
         currentDate,
-        getNextItemId,
+        getNextAvailableId,
         addItem,
         toggleItemStatus,
         deleteItem,
