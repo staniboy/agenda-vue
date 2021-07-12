@@ -12,62 +12,25 @@ export default createStore({
         items: [
           {
             id: 0,
-            text: "default item 1",
+            text: "This is unchecked task...",
             status: false,
-            dateAdded: "20/4/2020",
+            dateAdded: "18/5/2019",
           },
           {
             id: 1,
-            text: "default item 2",
-            status: false,
-            dateAdded: "20/4/2020",
+            text: "This is task is done!",
+            dateAdded: "7/1/2021",
+            status: true,
           },
           {
             id: 2,
-            text: " default item 3",
+            text: "Another unchecked task.",
+            status: false,
             dateAdded: "20/4/2020",
-            status: true,
           },
         ] as Array<Item>,
       },
-      {
-        id: 1,
-        name: "List ID 1",
-        items: [
-          {
-            id: 0,
-            text: "default item 2 1",
-            status: true,
-          },
-          {
-            id: 1,
-            text: "default item 2 2",
-            status: false,
-          },
-        ],
-      },
-      {
-        id: 3,
-        name: "List ID 3",
-        items: [
-          {
-            id: 0,
-            text: "default item 1",
-            status: true,
-          },
-          {
-            id: 1,
-            text: "default item 2",
-            status: true,
-          },
-          {
-            id: 2,
-            text: "default item 3",
-            status: true,
-          },
-        ],
-      },
-    ] as Array<List>,
+    ],
   },
   getters: {
     //Returns all Lists
