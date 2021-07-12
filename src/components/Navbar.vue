@@ -111,7 +111,7 @@
               <button
                 class="btn btn-primary"
                 type="submit"
-                @click.prevent="emitOnAddItem"
+                @click.prevent="onAddItem"
               >
                 Add
               </button>
@@ -125,6 +125,7 @@
 
 <script lang="ts">
   import { defineComponent, ref } from "vue";
+  import { useStore } from "vuex";
 
   export default defineComponent({
     emits: [
@@ -137,6 +138,7 @@
     props: [],
 
     setup(props, { emit }) {
+      const store = useStore();
       const input = ref();
 
       // TODO: Add proper type
@@ -148,8 +150,12 @@
         input.value.focus();
       }
 
-      function emitOnAddItem() {
-        emit("onAddItem", input.value.value);
+      // Adds new item via ADD_ITEM commit based on input value
+      function onAddItem() {
+        store.commit("ADD_ITEM", {
+          listId: 0,
+          text: input.value.value,
+        });
         resetInput();
       }
       function emitOnDeleteChecked() {
@@ -165,7 +171,7 @@
         input,
         emitOnSetList,
         resetInput,
-        emitOnAddItem,
+        onAddItem,
         emitOnDeleteChecked,
         emitOnResetChecked,
         emitOnClearList,
