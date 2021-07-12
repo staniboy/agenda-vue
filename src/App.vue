@@ -9,7 +9,7 @@
       @onResetChecked="resetChecked"
     ></Navbar>
     <!--TODO: fix this mess-->
-    <p>{{ data.currentList.name }}</p>
+    <!-- <p>{{ data.currentList.name }}</p> -->
     <p class="text-center fs-3 py-5" v-if="data.currentList.items.length === 0">
       List is empty
     </p>
