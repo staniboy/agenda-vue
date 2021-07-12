@@ -51,12 +51,12 @@
       id="collapseTarget"
     >
       <!-- List Index -->
-      <ul class="navbar-nav mr-auto" v-for="l in lists" v-bind:key="l.id">
+      <!-- <ul class="navbar-nav mr-auto" v-for="l in lists" v-bind:key="l.id">
         <li class="nav-item">
           <a class="nav-link" @click="emitOnSetList(l)">{{ l.name }}</a>
         </li>
       </ul>
-      <br />
+      <br /> -->
       <!-- Task utils -->
 
       <ul class="navbar-nav mr-auto">
