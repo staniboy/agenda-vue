@@ -1,3 +1,5 @@
+import { List } from "../types";
+
 // Returns next available Id of an Array
 export function getNextAvailableId(arr: Array<any>): number {
   let nextAvailableId = 0;
@@ -14,4 +16,8 @@ export function currentDate(): string {
   const cMonth = currentDate.getMonth() + 1;
   const cYear = currentDate.getFullYear();
   return cDay + "/" + cMonth + "/" + cYear;
+}
+// Return List object by id
+export function getListById(listId: number, lists: Array<List>): List {
+  return lists.find((list) => list.id === listId) as List;
 }
