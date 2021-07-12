@@ -43,28 +43,6 @@
       const store = useStore();
       const currentList = store.getters.getListById(1);
 
-      // function setCurrentList(list: List) {
-      //   console.log("list id is: " + list.id);
-      //   //data.currentList = list;
-      //   console.log(data.currentList, data.lists);
-      // }
-      // function clearList() {
-      //   data.currentList.items = [];
-      // }
-
-      // function deleteChecked() {
-      //   data.currentList.items = data.currentList.items.filter(
-      //     (x) => x.status !== true
-      //   );
-      // }
-
-      // function resetChecked() {
-      //   data.currentList.items = data.currentList.items.map((x) => {
-      //     x.status = false;
-      //     return x;
-      //   });
-      // }
-
       function currentDate(): string {
         const currentDate = new Date();
         const cDay = currentDate.getDate();
@@ -73,35 +51,6 @@
         return cDay + "/" + cMonth + "/" + cYear;
       }
 
-      // function addItem(content: string) {
-      //   if (content == "") return;
-      //   data.currentList.items = [
-      //     {
-      //       id: getNextAvailableId(data.currentList.items),
-      //       dateAdded: currentDate(),
-      //       content: content,
-      //       status: false,
-      //     },
-      //     ...data.currentList.items,
-      //   ];
-      // }
-
-      // function toggleItemStatus(id: number) {
-      //   data.currentList.items = data.currentList.items.map((x) => {
-      //     if (x.id === id) x.status = !x.status;
-      //     return x;
-      //   });
-      // }
-
-      // function deleteItem(id: number) {
-      //   data.currentList.items = data.currentList.items.filter(
-      //     (x) => x.id !== id
-      //   );
-      // }
-
-      // function editItem(newContent: string, id: number) {
-      //   data.currentList.items.find((x) => x.id === id)!.content = newContent;
-      // }
       return {
         currentList,
         currentDate,

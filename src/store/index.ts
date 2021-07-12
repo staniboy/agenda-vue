@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import { List, Item } from "../types";
+import getNextAvailableId from "./utils";
 
 export default createStore({
   state: {
@@ -79,7 +80,63 @@ export default createStore({
       return state.lists.find((list) => list.id === id)!.items;
     },
   },
-  mutations: {},
+  mutations: {
+    // Updates lists array with array of new lists
+    UPDATE_LISTS(state, newLists) {
+      state.lists = newLists;
+    },
+
+    // Updates items array of the list with new item array
+    UPDATE_LIST_ITEMS(state, { id, newListItems }) {
+      state.lists.find((list) => list.id === id)!.items = newListItems;
+    },
+
+    // Toggles status of the item by list and item ids
+    TOGGLE_ITEM(state, { listId, itemId }) {
+      const item = state.lists
+        .find((list) => list.id === listId)!
+        .items.find((item) => item.id === itemId);
+      item!.status = !item?.status;
+    },
+    //Deletes list or list item from list based on arrgs passed.
+    DELETE_ITEM(state, { listId = null, id }) {
+      if (listId === null) {
+        // Assuming we deleting list by its ID since listId wasn't passed
+        state.lists = state.lists.filter((x) => x.id !== id);
+      } else {
+        const list = state.lists.find((list) => list.id === listId);
+        list!.items = list!.items.filter((x) => x.id !== id);
+      }
+    },
+    //Edits task text or list name depending on arrguments passed.
+    EDIT_ITEM(state, { listId = null, id, text }) {
+      if (listId === null) {
+        const list = state.lists.find((list) => list.id === id);
+        list!.name = text;
+      } else {
+        const item = state.lists
+          .find((list) => list.id === listId)!
+          .items.find((item) => item.id === id);
+        item!.text = text;
+      }
+    },
+
+    //Adds new item to the list by id
+    ADD_ITEM(state, { listId, text }) {
+      // Pulling up current list
+      const list = state.lists.find((list) => list.id === listId);
+      // Getting next available id
+      const id = getNextAvailableId(list!.items);
+      // Creating new item
+      const item = {
+        id: id,
+        text: text,
+        status: false,
+      } as Item;
+      // Pushing item to the list
+      list!.items.push(item);
+    },
+  },
   actions: {},
   modules: {},
   plugins: [createPersistedState()],
