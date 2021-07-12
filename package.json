@@ -17,7 +17,8 @@
     "register-service-worker": "^1.7.1",
     "vue": "^3.1.4",
     "vuedraggable": "^4.0.3",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.0.17",

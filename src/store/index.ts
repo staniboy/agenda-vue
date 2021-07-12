@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
 import { List, Item } from "../types";
 
 export default createStore({
@@ -67,4 +68,5 @@ export default createStore({
   mutations: {},
   actions: {},
   modules: {},
+  plugins: [createPersistedState()],
 });
