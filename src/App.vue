@@ -1,7 +1,6 @@
 <template>
   <main class="container">
     <Navbar
-      :phrase="randomPhrase"
       :lists="data.lists"
       @onSetList="setCurrentList($event)"
       @onAddItem="addItem"
@@ -68,15 +67,7 @@
         items: Array<Item>;
       }
 
-    
       const data = reactive({
-        phrases: [
-          "Hello?",
-          "Do something...",
-          "I'm alive",
-          "Guess what?",
-          "Chicken butt!",
-        ],
         currentList: {
           id: 0,
           name: "First To-Do List",
@@ -151,9 +142,6 @@
             ],
           },
         ],
-      });
-      const randomPhrase = computed(() => {
-        return data.phrases[Math.floor(Math.random() * data.phrases.length)];
       });
 
       onMounted(() => {
@@ -234,7 +222,6 @@
       }
       return {
         data,
-        randomPhrase,
         setCurrentList,
         resetChecked,
         clearList,

@@ -134,14 +134,11 @@
       "onClearList",
       "onSetList",
     ],
-    props: ["phrase", "lists"],
+    props: ["lists"],
 
     setup(props, { emit }) {
       const input = ref();
 
-      onMounted(() => {
-        input.value.placeholder = props.phrase;
-      });
       // TODO: Add proper type
       function emitOnSetList(list: Event) {
         emit("onSetList", list);
