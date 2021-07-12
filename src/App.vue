@@ -1,23 +1,18 @@
 <template>
   <main class="container">
-    <Navbar
-    ></Navbar>
-    <!--TODO: fix this mess-->
+    <Navbar></Navbar>
     <!-- <p>{{ data.currentList.name }}</p> -->
-    <p class="text-center fs-3 py-5" v-if="currentList.items.length === 0">
+    <p class="text-center fs-3 py-5" v-if="currentList.length === 0">
       List is empty
     </p>
-    <!---->
     <draggable
       v-else
-      v-model="currentList.items"
+      v-model="currentList"
       item-key="id"
       handle=".app-list-item-handle"
     >
       <template #item="{element}">
-        <ListItem
-          :model="element"
-        ></ListItem>
+        <ListItem :model="element"></ListItem>
       </template>
     </draggable>
   </main>
@@ -40,13 +35,13 @@
     setup() {
       const store = useStore();
       const currentList = computed({
-        get: () => store.getters.getListItemsById(1),
+        get: () => store.getters.getListItemsById(0),
         set: (newListItems) =>
-          store.commit("UPDATE_LIST_ITEMS", { id: 1, newListItems }),
+          store.commit("UPDATE_LIST_ITEMS", { id: 0, newListItems }),
       });
 
       return {
-        currentList
+        currentList,
       };
     },
   });
