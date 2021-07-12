@@ -134,7 +134,7 @@
       "onClearList",
       "onSetList",
     ],
-    props: ["lists"],
+    props: [],
 
     setup(props, { emit }) {
       const input = ref();
