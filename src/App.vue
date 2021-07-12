@@ -33,6 +33,7 @@
 </template>
 
 <script lang="ts">
+  import { List, Item } from "./types";
   import { defineComponent, reactive, onMounted } from "vue";
   import draggable from "vuedraggable";
   import ListItem from "./components/ListItem.vue";
@@ -54,19 +55,6 @@
       },
     },
     setup() {
-      interface Item {
-        id: number;
-        dateAdded: string;
-        content: string;
-        status: boolean;
-      }
-
-      interface List {
-        id: number;
-        name: string;
-        items: Array<Item>;
-      }
-
       const data = reactive({
         currentList: {
           id: 0,
@@ -152,7 +140,7 @@
 
       function setCurrentList(list: List) {
         console.log("list id is: " + list.id);
-        data.currentList = list;
+        //data.currentList = list;
         console.log(data.currentList, data.lists);
       }
       function clearList() {
