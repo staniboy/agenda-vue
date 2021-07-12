@@ -1,31 +1,22 @@
 <template>
   <main class="container">
     <Navbar
-      :lists="data.lists"
-      @onSetList="setCurrentList($event)"
-      @onAddItem="addItem"
-      @onClearList="clearList"
-      @onDeleteChecked="deleteChecked"
-      @onResetChecked="resetChecked"
     ></Navbar>
     <!--TODO: fix this mess-->
     <!-- <p>{{ data.currentList.name }}</p> -->
-    <p class="text-center fs-3 py-5" v-if="data.currentList.items.length === 0">
+    <p class="text-center fs-3 py-5" v-if="currentList.items.length === 0">
       List is empty
     </p>
     <!---->
     <draggable
       v-else
-      v-model="data.currentList.items"
+      v-model="currentList.items"
       item-key="id"
       handle=".app-list-item-handle"
     >
       <template #item="{element}">
         <ListItem
           :model="element"
-          @onToggle="toggleItemStatus(element.id)"
-          @onDelete="deleteItem(element.id)"
-          @onEdit="editItem($event, element.id)"
         ></ListItem>
       </template>
     </draggable>
@@ -39,6 +30,7 @@
   import draggable from "vuedraggable";
   import ListItem from "./components/ListItem.vue";
   import Navbar from "./components/Navbar.vue";
+  import { useStore } from "vuex";
 
   export default defineComponent({
     name: "App",
@@ -48,104 +40,30 @@
       draggable,
     },
     setup() {
-      const data = reactive({
-        currentList: {
-          id: 0,
-          name: "First To-Do List",
-          items: [
-            {
-              id: 0,
-              dateAdded: "1/20/2021",
-              content: "Unchecked Task",
-              status: false,
-            },
-            {
-              id: 1,
-              dateAdded: "1/20/2021",
-              content: "Another Unchecked Task",
-              status: false,
-            },
-            {
-              id: 2,
-              dateAdded: "1/20/2021",
-              content: "Checked Task",
-              status: true,
-            },
-          ],
-        },
-        lists: [
-          {
-            id: 0,
-            name: "First To-Do List",
-            items: [
-              {
-                id: 0,
-                dateAdded: "1/20/2021",
-                content: "Unchecked Task",
-                status: false,
-              },
-              {
-                id: 1,
-                dateAdded: "1/20/2021",
-                content: "Another Unchecked Task",
-                status: false,
-              },
-              {
-                id: 2,
-                dateAdded: "1/20/2021",
-                content: "Checked Task",
-                status: true,
-              },
-            ],
-          },
-          {
-            id: 1,
-            name: "Second To-Do List",
-            items: [
-              {
-                id: 0,
-                dateAdded: "1/20/2021",
-                content: "Unchecked Task",
-                status: false,
-              },
-              {
-                id: 1,
-                dateAdded: "1/20/2021",
-                content: "Another Unchecked Task",
-                status: false,
-              },
-              {
-                id: 2,
-                dateAdded: "1/20/2021",
-                content: "Checked Task",
-                status: true,
-              },
-            ],
-          },
-        ],
-      });
+      const store = useStore();
+      const currentList = store.getters.getListById(1);
 
-      function setCurrentList(list: List) {
-        console.log("list id is: " + list.id);
-        //data.currentList = list;
-        console.log(data.currentList, data.lists);
-      }
-      function clearList() {
-        data.currentList.items = [];
-      }
+      // function setCurrentList(list: List) {
+      //   console.log("list id is: " + list.id);
+      //   //data.currentList = list;
+      //   console.log(data.currentList, data.lists);
+      // }
+      // function clearList() {
+      //   data.currentList.items = [];
+      // }
 
-      function deleteChecked() {
-        data.currentList.items = data.currentList.items.filter(
-          (x) => x.status !== true
-        );
-      }
+      // function deleteChecked() {
+      //   data.currentList.items = data.currentList.items.filter(
+      //     (x) => x.status !== true
+      //   );
+      // }
 
-      function resetChecked() {
-        data.currentList.items = data.currentList.items.map((x) => {
-          x.status = false;
-          return x;
-        });
-      }
+      // function resetChecked() {
+      //   data.currentList.items = data.currentList.items.map((x) => {
+      //     x.status = false;
+      //     return x;
+      //   });
+      // }
 
       function currentDate(): string {
         const currentDate = new Date();
@@ -155,47 +73,39 @@
         return cDay + "/" + cMonth + "/" + cYear;
       }
 
-      function addItem(content: string) {
-        if (content == "") return;
-        data.currentList.items = [
-          {
-            id: getNextAvailableId(data.currentList.items),
-            dateAdded: currentDate(),
-            content: content,
-            status: false,
-          },
-          ...data.currentList.items,
-        ];
-      }
+      // function addItem(content: string) {
+      //   if (content == "") return;
+      //   data.currentList.items = [
+      //     {
+      //       id: getNextAvailableId(data.currentList.items),
+      //       dateAdded: currentDate(),
+      //       content: content,
+      //       status: false,
+      //     },
+      //     ...data.currentList.items,
+      //   ];
+      // }
 
-      function toggleItemStatus(id: number) {
-        data.currentList.items = data.currentList.items.map((x) => {
-          if (x.id === id) x.status = !x.status;
-          return x;
-        });
-      }
+      // function toggleItemStatus(id: number) {
+      //   data.currentList.items = data.currentList.items.map((x) => {
+      //     if (x.id === id) x.status = !x.status;
+      //     return x;
+      //   });
+      // }
 
-      function deleteItem(id: number) {
-        data.currentList.items = data.currentList.items.filter(
-          (x) => x.id !== id
-        );
-      }
+      // function deleteItem(id: number) {
+      //   data.currentList.items = data.currentList.items.filter(
+      //     (x) => x.id !== id
+      //   );
+      // }
 
-      function editItem(newContent: string, id: number) {
-        data.currentList.items.find((x) => x.id === id)!.content = newContent;
-      }
+      // function editItem(newContent: string, id: number) {
+      //   data.currentList.items.find((x) => x.id === id)!.content = newContent;
+      // }
       return {
-        data,
-        setCurrentList,
-        resetChecked,
-        clearList,
-        deleteChecked,
+        currentList,
         currentDate,
         getNextAvailableId,
-        addItem,
-        toggleItemStatus,
-        deleteItem,
-        editItem,
       };
     },
   });
