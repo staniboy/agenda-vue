@@ -50,15 +50,7 @@
       class="nav-menu-col collapse navbar-collapse bg-white"
       id="collapseTarget"
     >
-      <!-- List Index -->
-      <!-- <ul class="navbar-nav mr-auto" v-for="l in lists" v-bind:key="l.id">
-        <li class="nav-item">
-          <a class="nav-link" @click="emitOnSetList(l)">{{ l.name }}</a>
-        </li>
-      </ul>
-      <br /> -->
-      <!-- Task utils -->
-
+      <!-- List utils -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" href="#" @click="onDeleteChecked">
@@ -80,7 +72,7 @@
           >
         </li>
       </ul>
-      <span class="version">0.1.3</span>
+      <span class="version">0.1.4</span>
     </div>
     <!-- Collapsable content -->
     <nav class="navbar px-0 navbar-light bg-white">
@@ -128,22 +120,11 @@
   import { useStore } from "vuex";
 
   export default defineComponent({
-    emits: [
-      "onAddItem",
-      "onDeleteChecked",
-      "onResetChecked",
-      "onClearList",
-      "onSetList",
-    ],
     props: [],
-
-    setup(props, { emit }) {
+    setup() {
       const store = useStore();
       const input = ref();
 
-      function emitOnSetList(list: Event) {
-        emit("onSetList", list);
-      }
       function resetInput() {
         input.value.value = "";
         input.value.focus();
@@ -171,7 +152,6 @@
       }
       return {
         input,
-        emitOnSetList,
         resetInput,
         onAddItem,
         onDeleteChecked,
