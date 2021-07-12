@@ -12,7 +12,7 @@
       handle=".app-list-item-handle"
     >
       <template #item="{element}">
-        <ListItem :model="element"></ListItem>
+        <ListItem :listId="0" :model="element"></ListItem>
       </template>
     </draggable>
   </main>
