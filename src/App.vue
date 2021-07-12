@@ -24,9 +24,7 @@
 </template>
 
 <script lang="ts">
-  import getNextAvailableId from "./store/utils";
-  import { List, Item } from "./types";
-  import { defineComponent, reactive, onMounted, computed } from "vue";
+  import { defineComponent, computed } from "vue";
   import draggable from "vuedraggable";
   import ListItem from "./components/ListItem.vue";
   import Navbar from "./components/Navbar.vue";
@@ -47,18 +45,8 @@
           store.commit("UPDATE_LIST_ITEMS", { id: 1, newListItems }),
       });
 
-      function currentDate(): string {
-        const currentDate = new Date();
-        const cDay = currentDate.getDate();
-        const cMonth = currentDate.getMonth() + 1;
-        const cYear = currentDate.getFullYear();
-        return cDay + "/" + cMonth + "/" + cYear;
-      }
-
       return {
-        currentList,
-        currentDate,
-        getNextAvailableId,
+        currentList
       };
     },
   });
