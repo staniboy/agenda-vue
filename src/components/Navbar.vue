@@ -35,7 +35,7 @@
             type="button"
             class="btn btn-danger text-white"
             data-bs-dismiss="modal"
-            @click="emitOnClearList"
+            @click="onClearList"
           >
             Delete!
           </button>
@@ -50,23 +50,15 @@
       class="nav-menu-col collapse navbar-collapse bg-white"
       id="collapseTarget"
     >
-      <!-- List Index -->
-      <!-- <ul class="navbar-nav mr-auto" v-for="l in lists" v-bind:key="l.id">
-        <li class="nav-item">
-          <a class="nav-link" @click="emitOnSetList(l)">{{ l.name }}</a>
-        </li>
-      </ul>
-      <br /> -->
-      <!-- Task utils -->
-
+      <!-- List utils -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#" @click="emitOnDeleteChecked">
+          <a class="nav-link" href="#" @click="onDeleteChecked">
             <img src="../assets/delete-checked.svg" alt="" /> Delete Checked</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" @click="emitOnResetChecked"
+          <a class="nav-link" href="#" @click="onResetChecked"
             ><img src="../assets/reset-checked.svg" alt="" /> Reset Checked</a
           >
         </li>
@@ -80,7 +72,7 @@
           >
         </li>
       </ul>
-      <span class="version">0.1.3</span>
+      <span class="version">0.1.4</span>
     </div>
     <!-- Collapsable content -->
     <nav class="navbar px-0 navbar-light bg-white">
@@ -111,7 +103,7 @@
               <button
                 class="btn btn-primary"
                 type="submit"
-                @click.prevent="emitOnAddItem"
+                @click.prevent="onAddItem"
               >
                 Add
               </button>
@@ -124,51 +116,47 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, onMounted } from "vue";
+  import { defineComponent, ref } from "vue";
+  import { useStore } from "vuex";
 
   export default defineComponent({
-    emits: [
-      "onAddItem",
-      "onDeleteChecked",
-      "onResetChecked",
-      "onClearList",
-      "onSetList",
-    ],
-    props: ["lists"],
-
-    setup(props, { emit }) {
+    props: [],
+    setup() {
+      const store = useStore();
       const input = ref();
 
-      // TODO: Add proper type
-      function emitOnSetList(list: Event) {
-        emit("onSetList", list);
-      }
       function resetInput() {
         input.value.value = "";
         input.value.focus();
       }
 
-      function emitOnAddItem() {
-        emit("onAddItem", input.value.value);
+      // Adds new item via ADD_ITEM commit based on input value
+      function onAddItem() {
+        store.commit("ADD_ITEM", {
+          listId: 0,
+          text: input.value.value,
+        });
         resetInput();
       }
-      function emitOnDeleteChecked() {
-        emit("onDeleteChecked");
+
+      // List Utilities
+
+      function onDeleteChecked() {
+        store.commit("DELETE_DONE_LIST_ITEMS", { listId: 0 });
       }
-      function emitOnResetChecked() {
-        emit("onResetChecked");
+      function onResetChecked() {
+        store.commit("RESET_LIST_ITEMS", { listId: 0 });
       }
-      function emitOnClearList() {
-        emit("onClearList");
+      function onClearList() {
+        store.commit("DELETE_ALL_LIST_ITEMS", { listId: 0 });
       }
       return {
         input,
-        emitOnSetList,
         resetInput,
-        emitOnAddItem,
-        emitOnDeleteChecked,
-        emitOnResetChecked,
-        emitOnClearList,
+        onAddItem,
+        onDeleteChecked,
+        onResetChecked,
+        onClearList,
       };
     },
   });

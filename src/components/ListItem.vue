@@ -10,24 +10,24 @@
       alt="checkbox-unchecked"
       src="../assets/circle.svg"
       v-if="!model.status"
-      @click="emitOnToggle"
+      @click="onToggle"
     />
     <img
       class="app-list-item-button"
       alt="checkbox-checked"
       src="../assets/check-circle.svg"
       v-else
-      @click="emitOnToggle"
+      @click="onToggle"
     />
     <div class="d-flex flex-column justify-content-start flex-grow-1">
       <div class="d-inline-flex">
         <div
           class="app-list-item-content"
           contenteditable="true"
-          @keydown.enter="emitOnEdit($event)"
-          @blur="emitOnEdit($event)"
+          @keydown.enter="onEdit"
+          @blur="onEdit"
         >
-          {{ model.content }}
+          {{ model.text }}
         </div>
       </div>
       <div class="app-list-item-info">Added on: {{ model.dateAdded }}</div>
@@ -37,7 +37,7 @@
       alt="delete"
       src="../assets/x.svg"
       v-if="model.status"
-      @click="emitOnDelete"
+      @click="onDelete"
     />
     <div v-else class="app-list-item-delete-button"></div>
   </div>
@@ -45,39 +45,55 @@
 
 <script lang="ts">
   import { defineComponent } from "vue";
+import { useStore } from "vuex";
 
   export default defineComponent({
-    emits: ["onToggle", "onDelete", "onEdit"],
     props: {
       model: {
         required: true,
         default: {
           id: 0,
           dateAdded: "1/3/2021",
-          content: "default task",
+          text: "default task",
           status: false,
         },
       },
+      listId: {
+        type: Number,
+        required: true,
+      }
     },
-    setup(props, { emit }) {
-      function emitOnToggle() {
-        emit("onToggle");
+    setup(props) {
+      const store = useStore();
+
+      function onToggle() {
+        store.commit("TOGGLE_ITEM", {
+          listId: props.listId,
+          itemId: props.model.id,
+        });
       }
 
-      function emitOnDelete() {
-        emit("onDelete");
+      function onDelete() {
+        store.commit("DELETE_ITEM", {
+          listId: props.listId,
+          id: props.model.id,
+        });
       }
 
-      function emitOnEdit(event: Event) {
+      function onEdit(event: Event) {
         const target = event.target as HTMLElement;
-        emit("onEdit", target.innerText);
+        store.commit("EDIT_ITEM", {
+          listId: props.listId,
+          id: props.model.id,
+          text: target.innerText,
+        });
         target.blur();
       }
 
       return {
-        emitOnToggle,
-        emitOnDelete,
-        emitOnEdit,
+        onToggle,
+        onDelete,
+        onEdit,
       };
     },
   });
