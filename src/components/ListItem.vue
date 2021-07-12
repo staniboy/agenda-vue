@@ -27,7 +27,7 @@
           @keydown.enter="emitOnEdit($event)"
           @blur="emitOnEdit($event)"
         >
-          {{ model.content }}
+          {{ model.text }}
         </div>
       </div>
       <div class="app-list-item-info">Added on: {{ model.dateAdded }}</div>
@@ -54,7 +54,7 @@
         default: {
           id: 0,
           dateAdded: "1/3/2021",
-          content: "default task",
+          text: "default task",
           status: false,
         },
       },
