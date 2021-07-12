@@ -35,7 +35,7 @@
             type="button"
             class="btn btn-danger text-white"
             data-bs-dismiss="modal"
-            @click="emitOnClearList"
+            @click="onClearList"
           >
             Delete!
           </button>
@@ -61,12 +61,12 @@
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#" @click="emitOnDeleteChecked">
+          <a class="nav-link" href="#" @click="onDeleteChecked">
             <img src="../assets/delete-checked.svg" alt="" /> Delete Checked</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" @click="emitOnResetChecked"
+          <a class="nav-link" href="#" @click="onResetChecked"
             ><img src="../assets/reset-checked.svg" alt="" /> Reset Checked</a
           >
         </li>
@@ -141,7 +141,6 @@
       const store = useStore();
       const input = ref();
 
-      // TODO: Add proper type
       function emitOnSetList(list: Event) {
         emit("onSetList", list);
       }
@@ -158,23 +157,26 @@
         });
         resetInput();
       }
-      function emitOnDeleteChecked() {
-        emit("onDeleteChecked");
+
+      // List Utilities
+
+      function onDeleteChecked() {
+        store.commit("DELETE_DONE_LIST_ITEMS", { listId: 0 });
       }
-      function emitOnResetChecked() {
-        emit("onResetChecked");
+      function onResetChecked() {
+        store.commit("RESET_LIST_ITEMS", { listId: 0 });
       }
-      function emitOnClearList() {
-        emit("onClearList");
+      function onClearList() {
+        store.commit("DELETE_ALL_LIST_ITEMS", { listId: 0 });
       }
       return {
         input,
         emitOnSetList,
         resetInput,
         onAddItem,
-        emitOnDeleteChecked,
-        emitOnResetChecked,
-        emitOnClearList,
+        onDeleteChecked,
+        onResetChecked,
+        onClearList,
       };
     },
   });

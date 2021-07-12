@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import { List, Item } from "../types";
-import { currentDate, getNextAvailableId } from "./utils";
+import { currentDate, getNextAvailableId, getListById } from "./utils";
 
 export default createStore({
   state: {
@@ -126,11 +126,8 @@ export default createStore({
 
     //Adds new item to the list by id
     ADD_ITEM(state, { listId, text }) {
-      // Pulling up current list
-      const list = state.lists.find((list) => list.id === listId);
-      // Getting next available id
-      const id = getNextAvailableId(list!.items);
-      //Getting current date
+      const list = getListById(listId, state.lists);
+      const id = getNextAvailableId(list.items);
       const date = currentDate();
       // Creating new item
       const item = {
@@ -141,6 +138,24 @@ export default createStore({
       } as Item;
       // Pushing item to the list
       list!.items.push(item);
+    },
+
+    DELETE_ALL_LIST_ITEMS(state, { listId }) {
+      const list = getListById(listId, state.lists);
+      list.items = [];
+    },
+
+    RESET_LIST_ITEMS(state, { listId }) {
+      const list = getListById(listId, state.lists);
+      list.items.forEach((x) => {
+        x.status = false;
+      });
+    },
+    DELETE_DONE_LIST_ITEMS(state, { listId }) {
+      const list = getListById(listId, state.lists);
+      list.items = list.items.filter((x) => {
+        return x.status === false;
+      });
     },
   },
   actions: {},
