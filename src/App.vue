@@ -26,7 +26,7 @@
 <script lang="ts">
   import getNextAvailableId from "./store/utils";
   import { List, Item } from "./types";
-  import { defineComponent, reactive, onMounted } from "vue";
+  import { defineComponent, reactive, onMounted, computed } from "vue";
   import draggable from "vuedraggable";
   import ListItem from "./components/ListItem.vue";
   import Navbar from "./components/Navbar.vue";
@@ -41,7 +41,11 @@
     },
     setup() {
       const store = useStore();
-      const currentList = store.getters.getListById(1);
+      const currentList = computed({
+        get: () => store.getters.getListItemsById(1),
+        set: (newListItems) =>
+          store.commit("UPDATE_LIST_ITEMS", { id: 1, newListItems }),
+      });
 
       function currentDate(): string {
         const currentDate = new Date();
