@@ -46,14 +46,6 @@
       Navbar,
       draggable,
     },
-    watch: {
-      data: {
-        handler(data) {
-          localStorage.lists = JSON.stringify(data.lists);
-        },
-        deep: true,
-      },
-    },
     setup() {
       const data = reactive({
         currentList: {
@@ -130,12 +122,6 @@
             ],
           },
         ],
-      });
-
-      onMounted(() => {
-        if (localStorage.lists) {
-          data.lists = JSON.parse(localStorage.lists);
-        }
       });
 
       function setCurrentList(list: List) {
