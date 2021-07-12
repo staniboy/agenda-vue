@@ -65,6 +65,20 @@ export default createStore({
       },
     ] as Array<List>,
   },
+  getters: {
+    //Returns all Lists
+    getLists: (state) => {
+      return state.lists;
+    },
+    //Returns List object by id
+    getListById: (state) => (id: number) => {
+      return state.lists.find((list) => list.id === id);
+    },
+    //Returns array of items from list by list id
+    getListItemsById: (state) => (id: number) => {
+      return state.lists.find((list) => list.id === id)!.items;
+    },
+  },
   mutations: {},
   actions: {},
   modules: {},
