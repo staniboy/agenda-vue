@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, onMounted, computed } from "vue";
+  import { defineComponent, reactive, onMounted } from "vue";
   import draggable from "vuedraggable";
   import ListItem from "./components/ListItem.vue";
   import Navbar from "./components/Navbar.vue";
