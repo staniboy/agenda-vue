@@ -1,5 +1,5 @@
 <template>
-  <div class="add-item-container" @enter="onAddItem">
+  <div class="add-item-container" @click="() => {input.value.focus()}">
     <div class="start-container"></div>
     <div class="icon-container">
       <img class="icon" alt="add sign" src="../assets/plus-lg.svg" />
@@ -8,11 +8,12 @@
       <input
         ref="input"
         type="text"
-        class="form-control flex-shrink-1"
-        placeholder="Add Item"
+        value="Add Item"
         aria-label="New task field"
         autocomplete="off"
         @keydown.enter="onAddItem"
+        @focus="onFocus"
+        @blur="onBlur"
       />
     </div>
     <div class="end-container"></div>
@@ -34,13 +35,13 @@
       const store = useStore();
       const input = ref();
 
-      // function onFocus() {
-      //   input.value.innerText = "";
-      // }
+      function onFocus() {
+        input.value.value = "";
+      }
 
-      // function onBlur() {
-      //   input.value.innerText = "Add Item";
-      // }
+      function onBlur() {
+        input.value.value = "Add Item";
+      }
       function onAddItem() {
         store.commit("ADD_ITEM", {
           listId: 0,
@@ -53,6 +54,8 @@
       return {
         input,
         onAddItem,
+        onFocus,
+        onBlur,
       };
     },
   });
@@ -84,6 +87,7 @@
     }
 
     input {
+      width: 100%;
       border-style: none;
       padding: 0;
     }
