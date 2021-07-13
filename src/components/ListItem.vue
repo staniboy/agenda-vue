@@ -23,8 +23,9 @@
         @click="onToggle"
       />
     </div>
-    <div class="content-container" ref="input">
+    <div class="content-container">
       <div
+        ref="input"
         class="top"
         contenteditable="true"
         @keydown.enter="onEdit"
@@ -106,7 +107,7 @@
   .list-item-container {
     display: flex;
     align-items: center;
-    margin: 1.2em 0;
+    margin: 1em 0;
     .handle-container {
       width: 32px;
     }
