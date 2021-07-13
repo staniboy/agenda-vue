@@ -1,7 +1,11 @@
 <template>
   <div class="list-item-container">
     <div class="handle-container">
-      <img class="icon handle" alt="grip" src="../assets/grip-vertical.svg" />
+      <img
+        class="icon handle"
+        alt="grip"
+        src="../assets/three-dots-vertical.svg"
+      />
     </div>
     <div class="rb-container">
       <img
@@ -19,7 +23,7 @@
         @click="onToggle"
       />
     </div>
-    <div class="content-container">
+    <div class="content-container" ref="input">
       <div
         class="top"
         contenteditable="true"
@@ -28,7 +32,7 @@
       >
         {{ model.text }}
       </div>
-      <div class="bottom">Added on: {{ model.dateAdded }}</div>
+      <!-- <div class="bottom">Added on: {{ model.dateAdded }}</div> -->
     </div>
     <div class="end-container">
       <img
@@ -43,7 +47,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, ref } from "vue";
   import { useStore } from "vuex";
 
   export default defineComponent({
@@ -64,7 +68,6 @@
     },
     setup(props) {
       const store = useStore();
-
       function onToggle() {
         store.commit("TOGGLE_ITEM", {
           listId: props.listId,
@@ -103,7 +106,7 @@
   .list-item-container {
     display: flex;
     align-items: center;
-    margin: 1em 0;
+    margin: 1.2em 0;
     .handle-container {
       width: 32px;
     }
@@ -112,7 +115,7 @@
     }
     .content-container {
       flex-grow: 1;
-      margin-left: .8em;
+      margin-left: 0.8em;
       .bottom {
         color: grey;
         font-size: 0.8em;
@@ -122,7 +125,7 @@
       width: 32px;
     }
     .icon {
-        width: 100%;
-      }
+      width: 100%;
+    }
   }
 </style>
