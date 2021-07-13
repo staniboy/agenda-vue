@@ -1,6 +1,6 @@
 <template>
+  <nav class="container"><Navbar></Navbar></nav>
   <main class="container">
-    <Navbar></Navbar>
     <!-- <p>{{ data.currentList.name }}</p> -->
     <p class="text-center fs-3 py-5" v-if="currentList.length === 0">
       List is empty
@@ -50,6 +50,9 @@
     "danger": #ff4136,
   );
   @import "../node_modules/bootstrap/scss/bootstrap.scss";
+  nav.container {
+      padding: 0 !important;
+    }
 
   .ghost {
     opacity: 0.5;
