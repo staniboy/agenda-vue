@@ -47,7 +47,7 @@
   <header class="sticky-top">
     <!-- Collapsable content -->
     <div
-      class="nav-menu-col collapse navbar-collapse bg-white"
+      class="nav-menu-col collapse navbar-collapse bg-white px-2"
       id="collapseTarget"
     >
       <!-- List utils -->
@@ -72,45 +72,21 @@
           >
         </li>
       </ul>
-      <span class="version">0.1.4</span>
     </div>
     <!-- Collapsable content -->
-    <nav class="navbar px-0 navbar-light bg-white">
-      <div class="d-inline-flex w-100">
-        <button
-          class="navbar-toggler me-2 py-0 bg-light"
-          type="button"
-          data-bs-target="#collapseTarget"
-          data-bs-toggle="collapse"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <form class="w-100">
-          <div class="input-group">
-            <input
-              ref="input"
-              type="text"
-              class="form-control flex-shrink-1"
-              placeholder="Enter task here"
-              aria-label="New task field"
-              autocomplete="off"
-            />
-            <div class="input-group-append">
-              <button
-                class="btn btn-primary"
-                type="submit"
-                @click.prevent="onAddItem"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+    <nav class="navbar px-0 navbar-light d-flex justify-content-end">
+      <div class="version px-2">Agenda-Vue 0.1.5</div>
+      <button
+        class="navbar-toggler me-2 py-0 bg-light "
+        type="button"
+        data-bs-target="#collapseTarget"
+        data-bs-toggle="collapse"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </nav>
   </header>
 </template>
@@ -161,9 +137,17 @@
     },
   });
 </script>
-<style lang="scss">
+<style lang="scss" scopped>
   @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
+  .navbar button {
+    background: white !important;
+    padding: 0 !important;
+  }
+  .navbar-toggler {
+    background: white !important;
+    border-style: none !important;
+  }
   .nav-menu-col {
     a {
       @extend .py-3;
