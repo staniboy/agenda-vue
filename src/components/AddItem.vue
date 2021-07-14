@@ -45,10 +45,8 @@
       function onAddItem() {
         store.commit("ADD_ITEM", {
           listId: 0,
-          text: input.value.value,
+          text: '',
         });
-        input.value.value = "";
-        input.value.focus();
       }
 
       return {
