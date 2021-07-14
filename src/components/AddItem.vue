@@ -1,27 +1,18 @@
 <template>
-  <div class="add-item-container" @click="() => {input.value.focus()}">
+  <div class="add-item-container" @click="onAddItem">
     <div class="start-container"></div>
     <div class="icon-container">
       <img class="icon" alt="add sign" src="../assets/plus-lg.svg" />
     </div>
     <div class="content-container">
-      <input
-        ref="input"
-        type="text"
-        value="Add Item"
-        aria-label="New task field"
-        autocomplete="off"
-        @keydown.enter="onAddItem"
-        @focus="onFocus"
-        @blur="onBlur"
-      />
+      Add Item
     </div>
     <div class="end-container"></div>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { defineComponent } from "vue";
   import { useStore } from "vuex";
 
   export default defineComponent({
@@ -33,27 +24,16 @@
     },
     setup() {
       const store = useStore();
-      const input = ref();
 
-      function onFocus() {
-        input.value.value = "";
-      }
-
-      function onBlur() {
-        input.value.value = "Add Item";
-      }
       function onAddItem() {
         store.commit("ADD_ITEM", {
           listId: 0,
-          text: '',
+          text: "",
         });
       }
 
       return {
-        input,
-        onAddItem,
-        onFocus,
-        onBlur,
+        onAddItem
       };
     },
   });
