@@ -69,6 +69,7 @@
     },
     setup(props) {
       const store = useStore();
+      const input = ref();
       function onToggle() {
         store.commit("TOGGLE_ITEM", {
           listId: props.listId,
@@ -84,16 +85,16 @@
       }
 
       function onEdit(event: Event) {
-        const target = event.target as HTMLElement;
         store.commit("EDIT_ITEM", {
           listId: props.listId,
           id: props.model.id,
-          text: target.innerText,
+          text: input.value.innerText,
         });
-        target.blur();
+        input.value.blur();
       }
 
       return {
+        input,
         onToggle,
         onDelete,
         onEdit,
