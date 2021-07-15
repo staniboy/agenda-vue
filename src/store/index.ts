@@ -45,6 +45,11 @@ export default createStore({
     getListItemsById: (state) => (id: number) => {
       return state.lists.find((list) => list.id === id)!.items;
     },
+    //Returns last item in item array by listId
+    getLastItemByListId: (state) => (id: number) => {
+      const list = getListById(id, state.lists);
+      return list.items[list.items.length - 1];
+    },
   },
   mutations: {
     // Updates lists array with array of new lists
