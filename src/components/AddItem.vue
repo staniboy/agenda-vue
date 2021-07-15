@@ -1,10 +1,17 @@
 <template>
-  <div class="add-item-container" @click="onAddItem">
+  <div class="add-item-container">
     <div class="start-container"></div>
     <div class="icon-container">
       <img class="icon" alt="add sign" src="../assets/plus-lg.svg" />
     </div>
-    <div class="content-container">
+    <div
+      @focus="onFocus"
+      @blur="onBlur"
+      @keydown.enter.prevent="onAddItem"
+      ref="input"
+      class="content-container"
+      contenteditable="true"
+    >
       Add Item
     </div>
     <div class="end-container"></div>
@@ -12,7 +19,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, nextTick, ref } from "vue";
   import { useStore } from "vuex";
 
   export default defineComponent({
@@ -24,16 +31,30 @@
     },
     setup() {
       const store = useStore();
+      const input = ref();
 
+      function onBlur() {
+        input.value.innerText = "Add Item"
+      }
+
+      function onFocus() {
+        input.value.innerText = ""
+      }
       function onAddItem() {
         store.commit("ADD_ITEM", {
           listId: 0,
-          text: "",
+          text: input.value.innerText,
         });
+        input.value.innerText = "";
+        input.value.focus();
+        
       }
 
       return {
-        onAddItem
+        input,
+        onBlur,
+        onFocus,
+        onAddItem,
       };
     },
   });
@@ -62,12 +83,6 @@
       display: flex;
       width: 50%;
       margin: auto;
-    }
-
-    input {
-      width: 100%;
-      border-style: none;
-      padding: 0;
     }
   }
 </style>
