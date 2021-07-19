@@ -85,12 +85,17 @@
       }
 
       function onEdit(event: Event) {
-        store.commit("EDIT_ITEM", {
-          listId: props.listId,
-          id: props.model.id,
-          text: input.value.innerText,
-        });
-        input.value.blur();
+        if (input.value.innerText === "") {
+          input.value.blur();
+          onDelete();
+        } else {
+          store.commit("EDIT_ITEM", {
+            listId: props.listId,
+            id: props.model.id,
+            text: input.value.innerText,
+          });
+          input.value.blur();
+        }
       }
 
       return {
