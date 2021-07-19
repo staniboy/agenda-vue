@@ -33,8 +33,8 @@
       >
         {{ model.text }}
       </div>
-      <!-- <div class="bottom">Added on: {{ model.dateAdded }}</div> -->
     </div>
+    <div class="pusher"></div>
     <div class="end-container">
       <img
         class="icon"
@@ -116,12 +116,16 @@
       width: 32px;
     }
     .content-container {
-      flex-grow: 1;
+      flex-grow: 0;
       margin-left: 0.8em;
       .bottom {
         color: grey;
         font-size: 0.8em;
       }
+    }
+
+    .pusher {
+      flex-grow: 1;
     }
     .end-container {
       width: 32px;
