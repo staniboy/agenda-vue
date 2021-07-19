@@ -34,20 +34,24 @@
       const input = ref();
 
       function onBlur() {
-        input.value.innerText = "Add Item"
+        input.value.innerText = "Add Item";
       }
 
       function onFocus() {
-        input.value.innerText = ""
+        input.value.innerText = "";
       }
       function onAddItem() {
-        store.commit("ADD_ITEM", {
-          listId: 0,
-          text: input.value.innerText,
-        });
-        input.value.innerText = "";
-        input.value.focus();
-        
+        if (input.value.innerText === "") {
+          console.log("this is empty bruh. D:");
+          input.value.blur();
+        } else {
+          store.commit("ADD_ITEM", {
+            listId: 0,
+            text: input.value.innerText,
+          });
+          input.value.innerText = "";
+          input.value.focus();
+        }
       }
 
       return {
