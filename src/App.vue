@@ -2,10 +2,7 @@
   <nav class="container"><Navbar></Navbar></nav>
   <main class="container">
     <!-- <p>{{ data.currentList.name }}</p> -->
-    <p class="text-center fs-3 py-5" v-if="currentList.length === 0">
-      List is empty
-    </p>
-    <draggable v-else v-model="currentList" item-key="id" handle=".handle">
+    <draggable v-model="currentList" item-key="id" handle=".handle">
       <template #item="{element}">
         <ListItem :listId="0" :model="element"></ListItem>
       </template>
