@@ -1,4 +1,4 @@
-import { List } from "../types";
+import { List } from "./types";
 
 // Returns next available Id of an Array
 export function getNextAvailableId(arr: Array<any>): number {
@@ -20,4 +20,14 @@ export function currentDate(): string {
 // Return List object by id
 export function getListById(listId: number, lists: Array<List>): List {
   return lists.find((list) => list.id === listId) as List;
+}
+
+//Sets contenteditable's caret to the end.
+export function setCaret(el: HTMLElement) {
+  if (window.getSelection) {
+    el.focus();
+    const range = window.getSelection();
+    range!.selectAllChildren(el);
+    range!.collapseToEnd();
+  }
 }
