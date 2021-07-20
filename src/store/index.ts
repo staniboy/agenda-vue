@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import { List, Item } from "../types";
-import { currentDate, getNextAvailableId, getListById } from "./utils";
+import { List, Item } from "@/types"
+import { currentDate, getNextAvailableId, getListById } from "@/utils";
 
 export default createStore({
   state: {
