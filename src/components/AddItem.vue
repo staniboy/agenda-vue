@@ -1,11 +1,10 @@
 <template>
-  <div class="add-item-container">
+  <div class="add-item-container" @click="onFocus">
     <div class="start-container"></div>
     <div class="icon-container">
       <img class="icon" alt="add sign" src="../assets/plus-lg.svg" />
     </div>
     <div
-      @focus="onFocus"
       @blur="onBlur"
       @keydown.enter.prevent="onAddItem"
       ref="input"
@@ -14,6 +13,7 @@
     >
       Add Item
     </div>
+    <div class="pusher" @click="onFocus"></div>
     <div class="end-container"></div>
   </div>
 </template>
@@ -38,6 +38,7 @@
       }
 
       function onFocus() {
+        input.value.focus();
         input.value.innerText = "";
       }
       function onAddItem() {
@@ -77,8 +78,17 @@
       width: 32px;
     }
     .content-container {
-      flex-grow: 1;
+      display: flex;
+      padding-inline: 0.5em;
       margin-left: 0.8em;
+    }
+    .content-container:focus {
+      background-color: black;
+      color: white;
+    }
+    .pusher {
+      height: 1em;
+      flex-grow: 1;
     }
     .end-container {
       width: 32px;
