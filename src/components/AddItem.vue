@@ -82,6 +82,7 @@
       display: flex;
       padding-inline: 0.5em;
       margin-left: 0.8em;
+      outline-color: black;
     }
     .content-container:focus {
       background-color: black;
