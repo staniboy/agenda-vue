@@ -84,7 +84,7 @@
         });
       }
 
-      function onEdit(event: Event) {
+      function onEdit() {
         if (input.value.innerText === "") {
           input.value.blur();
           onDelete();
