@@ -9,7 +9,6 @@
       @keydown.enter.prevent="onAddItem"
       ref="input"
       class="content-container"
-      contenteditable="true"
     >
       Add Item
     </div>
@@ -34,12 +33,14 @@
       const input = ref();
 
       function onBlur() {
+        input.value.contentEditable = "false";
         input.value.innerText = "Add Item";
       }
 
       function onFocus() {
-        input.value.focus();
         input.value.innerText = "";
+        input.value.contentEditable = "true";
+        input.value.focus();
       }
       function onAddItem() {
         if (input.value.innerText === "") {
