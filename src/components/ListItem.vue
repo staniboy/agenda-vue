@@ -23,18 +23,16 @@
         @click="onToggle"
       />
     </div>
-    <div class="content-container">
-      <div
-        ref="input"
-        class="top"
-        contenteditable="true"
-        @keydown.enter="onEdit"
-        @blur="onEdit"
-      >
-        {{ model.text }}
-      </div>
+    <div
+      class="content-container"
+      ref="input"
+      contenteditable="true"
+      @keydown.enter.prevent="onEdit"
+      @blur="onEdit"
+    >
+      {{ model.text }}
     </div>
-    <div class="pusher"></div>
+    <div class="pusher" @click="focusInput"></div>
     <div class="end-container">
       <img
         class="icon"
@@ -48,6 +46,7 @@
 </template>
 
 <script lang="ts">
+  import { setCaret } from "@/utils";
   import { defineComponent, ref } from "vue";
   import { useStore } from "vuex";
 
@@ -98,11 +97,17 @@
         }
       }
 
+      function focusInput() {
+        input.value.focus();
+        setCaret(input.value);
+      }
+
       return {
         input,
         onToggle,
         onDelete,
         onEdit,
+        focusInput,
       };
     },
   });
@@ -114,6 +119,7 @@
     display: flex;
     align-items: center;
     margin: 1em 0;
+    height: 100%;
     .handle-container {
       width: 32px;
     }
@@ -121,15 +127,17 @@
       width: 32px;
     }
     .content-container {
-      flex-grow: 0;
+      display: flex;
+      padding-inline: 0.5em;
       margin-left: 0.8em;
-      .bottom {
-        color: grey;
-        font-size: 0.8em;
-      }
+    }
+    .content-container:focus {
+      background-color: black;
+      color: white;
     }
 
     .pusher {
+      height: 1em;
       flex-grow: 1;
     }
     .end-container {
